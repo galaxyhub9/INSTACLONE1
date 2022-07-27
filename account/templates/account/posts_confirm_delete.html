@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+
+{% if object.user.id == user.id %}
+<div class="container">
+
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}  
+        <h2 style="text-transform: uppercase ;">{{ object.user }} are you sure you want to delete? </h2>             
+        <input type="submit" value="delete" class="btn btn-danger" >
+        <a href="{% url 'index'  %} " class="btn btn-primary">cancel</a>         <!-- href="{% url 'account:post-detail-view' object.id %}" THIS CAN BE USED TO GET BACK TO POST DETAIL VIEW AFTER CANCELLATION -->
+    </form>
+</div>
+{% else %}
+<h2>You can't delete the post!!</h2>
+{% endif %}
+{% endblock %}

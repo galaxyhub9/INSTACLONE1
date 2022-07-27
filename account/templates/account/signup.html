@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{%block body_block%}
+<div class="container">
+{% if registered %}
+<h2>you are succesfully registered </h2>
+<h4><a href="{% url 'account:login' %}">login here</a> </h4>
+{% else %}
+<h2>Signup Here</h2>
+<br>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ user_form.as_p }}
+    {{ profile_form.as_p }}
+    <input type="submit" value="signup">
+    {% endif %}
+</form>
+</div>
+{% endblock %}
