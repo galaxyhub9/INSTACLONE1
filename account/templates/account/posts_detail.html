@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container" align="center">
+
+    <h2 style=" text-transform:uppercase"> {{object.user}}'s POST</h2> <hr>
+
+   <a href="#"> <img src="{{object.user_post.url}} " alt="" width="500px" height="300px" ></a>
+    <br> <br>
+   CAPTION: <strong>{{object.caption}} </strong><br><br>
+ 
+   posted_at: {{ object.posted_at}}
+ 
+</div>
+{% endblock %}

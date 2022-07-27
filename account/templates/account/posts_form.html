@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<!-- {{ request.user.id}}
+{{request.user.username}}  -->
+{% if user.is_authenticated %}
+<div class="container">
+    <h2>post here</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ post_form.as_p }}
+        <input type="submit" value="post" >
+    </form>
+</div>
+
+
+{% else %}
+<h2>you need to login !!</h2>
+{% endif %}
+
+<script>
+    var name = "{{ user.id }}";
+    document.getElementById('auth').value = name;
+</script>
+
+{% endblock %}

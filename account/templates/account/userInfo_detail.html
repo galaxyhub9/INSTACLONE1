@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<style>
+    #postlength
+    {
+        list-style: none;
+        
+    }
+ 
+    #postlength li
+    {
+        display: inline;
+        padding-right:10px;
+        float: right;
+    }
+    p a{
+        text-decoration: none;
+        color: rgb(241, 154, 66);
+        font-size: 15px;
+    }
+
+   /* #cols
+    {
+        padding-left: 100px;
+        text-align: center;
+        padding-right: 150px;
+        
+    }*/
+
+    #cols a img 
+    {
+        border: 15px rgba(66, 66, 66, 0.103) solid;
+        
+        margin: 50px;
+        border-radius: 20px;
+    }
+
+</style>
+
+<div class="container" align="center">
+
+    <h2 style=" text-transform:uppercase"> {{user_profile.user.username }} 's profile  </h2> <hr>
+
+   <a href="{{user_profile.dp.url}}"> <img src="{{user_profile.dp.url}} " alt="" width="200px" height="200px" ></a>
+    <br>
+   Name: <strong>{{user_profile.user}} </strong><br><br>
+   Bio:  <strong>{{user_profile.bio}} </strong><br>
+   <br>
+   Joined: {{ user_profile.joined_at}}  
+   <br>
+   <br>
+    <p>posts: {{user_post_length}} </p>
+    <p> <a href="{% url 'account:following_list' user_object.id %}">following: {{user_following}}  </a></p>  
+    <p><a href="{% url 'account:followers_list' user_object.id %}"> followers : {{user_followers}} </a></p>
+
+</div>
+
+
+<br>
+{% if not is_follows_this_user %}
+<form action="/follow" method="POST">
+    {% csrf_token %}       
+     
+    {% if user_object.username != user.username %}    
+        
+            <input type="hidden" value="{{ request.user.id }}" name="follower" id='follow'/>
+            <input type="hidden" value="{{ user_object.id }}" name="user" id="user" /> 
+            <!-- <input type="hidden" value="follow" name="value" />   -->
+            <button type="submit" class="btn btn-info ">follow</button>
+        
+    {% endif %} 
+    
+</form>
+<br>
+{% else %}
+<form action="/unfollow" method="POST">
+    {% csrf_token %}       
+     
+    {% if user_object.username != user.username %}    
+        
+            <input type="hidden" value="{{ request.user.id }}" name="unfollower" id='unfollow'/>
+            <input type="hidden" value="{{ user_object.id }}" name="un_user" id="un_user" /> 
+            <!-- <input type="hidden" value="follow" name="value" />   -->
+            <button type="submit" class="btn btn-danger ">unfollow</button>
+        
+    {% endif %} 
+    </div>
+</form>
+{% endif %} 
+<br> 
+<hr>
+
+<div class="container" id="cols">
+
+    {% for post in user_posts %}
+
+            <a href="{{post.user_post.url}}">
+                <img src=" {{post.user_post.url}} " alt="" width="300px">
+            </a>
+           
+    {% endfor %}
+
+</div>
+
+<!-- 
+<script>
+    var follower = "{{ request.user.id }}";
+    document.getElementsByClassName('follow').value = follower;
+
+    var user = "{{ user_object.id }}";
+    document.getElementsByClassName('user').value = user;
+</script> -->
+
+{% endblock %}

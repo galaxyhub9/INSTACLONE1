@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{%block body_block%}
+
+<style>
+    #follower {
+        text-decoration: none;
+        color: black;
+        font-size: 20px;
+     /*   text-align: justify;     
+        width: 100px;   */
+        
+    }
+</style>
+
+<div class="container" align="center" >
+
+<h2> {{user_object}} followers </h2>
+
+
+
+{% for follower in user_followers_list1 %}
+
+<a href="{{follower.dp.url}} "><img src=" {{follower.dp.url}} " alt="" width="30px" height="30px"></a> 
+
+<a id="follower" href="{% url 'account:profile-detail-view' follower.id %}"> {{follower}} </a>
+<br>
+<br>
+
+{% endfor %}
+
+
+</div>
+{% endblock %}

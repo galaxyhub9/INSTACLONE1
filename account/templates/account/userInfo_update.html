@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{%block body_block%}
+<style>
+    #update
+    {   
+       
+        list-style: none;
+    }
+    #update li 
+    {
+        padding: 70px;
+        display: inline;
+        text-align: center;
+    }
+
+
+</style>
+
+<div class="container" align="center">
+<h2>profile update</h2>
+<br>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ one_form.as_p }}
+    {{ two_form.as_p }}
+   <div class="container" id="update">
+   
+   <li> <input type="submit" value="update" class="btn btn-primary">    </li>
+    <li> <a href="{% url 'account:profile-update-view' %}" class="btn btn-dark"> cancel </a></li>
+    
+    </div>
+</form>
+
+
+</div>
+{% endblock %}
