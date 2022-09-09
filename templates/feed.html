@@ -1,0 +1,22 @@
+{% extends 'base.html' %} 
+{%block body_block%}
+{% load humanize %}
+{% load static %}
+
+
+
+<div class="container" align="center">
+    <h2>feed</h2>
+{% for feed in feed_list %}
+@{{feed}}
+<p><a href="{{feed.user_post.url}}"><img src="{{feed.user_post.url}} " alt=""></a></p>
+<p>posted_at: {{feed.posted_days}} </p>
+<p>caption: {{feed.caption}}</p>
+<hr>
+{% endfor %}
+</div>
+
+
+
+
+{% endblock %}

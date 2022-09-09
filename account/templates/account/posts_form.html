@@ -1,15 +1,49 @@
 {% extends 'base.html' %}
 
 {% block body_block %}
+<style>
+    .container{
+        width: 50%;
+        
+        
+    }
+    #id_caption
+    {
+        height: 20px;
+    }
+
+    label{
+        color: rgb(0, 0, 0);
+        height: 100px;
+        width: 100px;
+        margin-left: 30%;
+        background-image: url("https://cdn.pixabay.com/photo/2016/01/03/00/43/upload-1118929_960_720.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        padding-top: 100px;
+        
+        
+    }
+
+    input[type="file"]   
+    {
+        display: none;
+    }
+    
+    
+  
+
+</style>
 <!-- {{ request.user.id}}
 {{request.user.username}}  -->
 {% if user.is_authenticated %}
 <div class="container">
-    <h2>post here</h2>
+    <h2 align="center">post here</h2>
+    <hr>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ post_form.as_p }}
-        <input type="submit" value="post" >
+        <input type="submit" value="post" class="btn btn-primary form-control">
     </form>
 </div>
 

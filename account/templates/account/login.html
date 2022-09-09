@@ -1,24 +1,73 @@
 {% extends 'base.html' %}
 {%block body_block%}
 
-<h2>login Here</h2>
-<br>
+<style>
+      /*footer*/
+   .cols1 a, .cols2 a
+   {
+    text-decoration: none;
+    padding: 10px;
+    color: grey;
+   }
+   .cols1
+   {
+     width: 10%;
+     float: left;
+     margin-left: 30%;
+     text-align: start;
+   }
+
+   .cols2
+   {
+     width: 20%;
+     float:left;
+     margin-right: 30%;
+     text-align: start;
+
+
+   
+   }
+</style>
+
+<div align="center" class="container" style="width:350px">
+<h2 style="margin: 20px;">login Here</h2>
+<hr>
 <form method="POST">
     {% csrf_token %}
-    <label for="">username</label>
-    <input type="text" name="username" id="">
-    <br>
-    <br>
-    <label for="">email</label>
-    <input type="text" name="email" id="">
-    <br>
-    <br>
-    <label for="">password</label>
-    <input type="password" name="password" id="">
-    <br>
-    <br>
-    <input type="submit" value="login">
+    <!-- <label for="">username:</label> -->
+   <p> <input type="text" name="username" class="form-control" placeholder="username"></p>
+    
+    <!-- <label for="">email</label> -->
+    <p><input type="text" name="email" class="form-control" placeholder="email"></p>
    
+    <!-- <label for="">password</label> -->
+    <p><input type="password" name="password" class="form-control" placeholder="password"></p>
+  
+    <input type="submit" value="login" class="btn btn-primary form-control">   
 </form>
-
+<br><br>
+<p> do not have account? <a href="{% url 'index' %}">register/signup here!</a> </p>
+</div>
+<nav class="navbar fixed-bottom navbar-light bg-light">
+    <div class="container" align="center">
+  
+      <div class="cols1">
+        <a href="#">about</a><br>
+        <a href="#">contact</a><br>
+        <a href="#">terms</a>
+  
+      </div>
+  
+      <div class="cols2">
+        <a href="#">help</a><br>
+        <a href="#">blogs</a><br>
+        <a href="#">topaccounts</a>
+  
+      </div>
+      <div class="text-center p-3" align="center" style="width: 85%; text-decoration:none">
+        © 2020 Copyright
+        <a class="text-dark" href="/"  style="text-decoration:none">newgram.com</a>
+      </div>
+    </div>
+  </nav>
 {% endblock %}

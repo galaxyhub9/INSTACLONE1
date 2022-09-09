@@ -1,15 +1,126 @@
 {% extends 'base.html' %}
 
 {% block body_block %}
-<div class="container" align="center">
+{%  load static %}
+<style>
+     .options
+     {
+       padding-left: 280px;
+     }
+      
+       .menu-bar ul li a{
+        text-decoration: none;
+       }
+      
+       .menu-bar ul
+       {
+        display: inline-flex;
+        list-style: none;
+       }
+        
+       .sub-menu
+       {
+        display: none;  
+        }
+      
+        
+        .options:hover .sub-menu
+        {
+          display: block;
+          position:absolute;
+         /* background-color: rgba(245, 245, 220, 0.322);*/
+          
+          
+              
+        }
+        .options:hover .sub-menu ul
+        {
+          display: block;  
+         /* padding: 20px;*/
+          font-size:20px;
+             
+        }
+        /*.options:hover .sub-menu ul li a:hover
+        {
+          
+          border-radius: 2px;       
+          border: 2px rgb(34, 33, 33) solid;
+          margin: 12px;
+          
+        }*/
+      
+        .options:hover .sub-menu ul li 
+        {
+          color: black;
+        }
+        .options:hover .sub-menu ul li #delete:hover
+        {
+          color: rgb(230, 16, 16);
+        }
+        .options:hover #edit{
+          
+         /* float: left;
+          padding-top: 15px;
+          padding-bottom: 15px;*/
+        }
+      
+      
+        #caption{
+          width: 200px;
+         text-align: justify;
+        }
 
+        .containers
+        {
+          border: 2px red solid;
+          margin-left: 20%;
+        }
+      
+</style>
+
+<div class="containers" align="center">
+    
     <h2 style=" text-transform:uppercase"> {{object.user}}'s POST</h2> <hr>
-
-   <a href="#"> <img src="{{object.user_post.url}} " alt="" width="500px" height="300px" ></a>
+    {% if user.id == object.user.id %}
+    <div class="menu-bar" width="30%" style="border: 2px red solid; ">
+        <ul>
+          
+      
+          <li class="options" >      
+            <a href="#">        <!-- {% url 'account:post-delete-view' object.id %} -->
+              <img src="{% static 'more.png' %}" alt="" height="30px" style="border: 2px red solid; "/>
+            </a>
+      
+            <div class="sub-menu"  width="30%" style="border: 2px red solid; ">
+              <ul>
+                <li><a id="delete" href="{% url 'account:post-delete-view' object.id %}">Delete</a></li>
+                <li><a id="edit" href="{% url 'account:post-update-view' object.id %}">Edit  </a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    {% endif %}
+   <a href="{{object.user_post.url}}"> <img src="{{object.user_post.url}} " alt="" width="30%"  ></a>
     <br> <br>
-   CAPTION: <strong>{{object.caption}} </strong><br><br>
+   Caption: <strong>{{object.caption}} </strong><br><br>
  
    posted_at: {{ object.posted_at}}
- 
+    <br>
+    <br>
+  
+  <p>
+    <a href="/like-post?post_id={{object.id}} " style="color: rgb(245, 44, 44) ;text-decoration: none; " >
+  <svg xmlns="http://www.w3.org/2000/svg" width=" 4%" height="4%" fill="currentColor" class="bi bi-suit-heart-fill"
+    viewBox="0 0 16 16">
+    <path
+      d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+  </svg>
+</a>
+{{object.likes}}
+</p>
+<p>
+  <a href="{{object.user_post.url}}" download> download </a>
+</p>
 </div>
 {% endblock %}

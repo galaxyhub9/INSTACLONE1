@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'instaclone.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'instaclone',
+        'NAME': 'insta09db',
         'USER': 'root',
         'PASSWORD' : 'root',
-        ' HOST ':' localhost ',
+        'HOST':'localhost',
         
     }
 }

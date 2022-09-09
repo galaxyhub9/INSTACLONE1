@@ -22,11 +22,17 @@ from account import views as aviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.indexView.as_view(),name='index'),
+    path('',views.IndexFeedView,name='index'),
+    # path('feed',views.FeedView,name='feed'),
+    # path('feed/<pk>',views.FeedView,name='feed'),
     path('account/',include('account.urls')),
     path('like-post/',aviews.postLikeView,name='like-post'),
-    path('follow',aviews.follow,name='follow'),
-    path('unfollow',aviews.unfollow,name='unfollow'),
+    path('follow/',aviews.follow,name='follow'),
+    path('unfollow/',aviews.unfollow,name='unfollow'),
+    path('accdel/',aviews.AccDelView,name='account_delete_msg'),
+    path('search',aviews.SearchView,name='search'),
+    
+    
 
     path('__debug__/', include('debug_toolbar.urls')),
     

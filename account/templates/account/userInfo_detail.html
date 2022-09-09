@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block body_block %}
 <style>
     #postlength
@@ -16,8 +16,7 @@
     }
     p a{
         text-decoration: none;
-        color: rgb(241, 154, 66);
-        font-size: 15px;
+        color: black;
     }
 
    /* #cols
@@ -30,13 +29,118 @@
 
     #cols a img 
     {
-        border: 15px rgba(66, 66, 66, 0.103) solid;
+        border: 15px rgba(71, 71, 71, 0.103) solid;
         
         margin: 50px;
         border-radius: 20px;
     }
+    #cols a img:hover
+    {
+        border: 15px rgba(71, 71, 71, 0.103) solid;
+        box-shadow: black 1px 2px 3px 4px;
+        margin: 50px;
+        border-radius: 20px;
+    }
+
+    /* CSS FOR THE POST EDIT AND DELETE */
+
+      .menu-bar{
+        width: 1000px;
+        display: inline;
+        padding-left: 120px;
+      }
+        
+       .sub-menu ul li a{
+        text-decoration: none;
+        display: inline;
+       }
+      
+       .menu-bar ul
+       {
+        display: inline-flex;
+        list-style: none;
+       }
+        
+       .sub-menu
+       {
+        display: none;  
+        padding-left: 350px;
+        padding-top: 25px;
+        }
+      
+        
+        .options:hover .sub-menu
+        {
+          display: block;
+          position:absolute;
+              
+        }
+        .options:hover .sub-menu ul
+        {
+          display: block;  
+          padding: 20px;
+          font-size:20px;
+          padding-top:15px;
+          
+             
+        }
+     
+      
+        .options:hover .sub-menu ul li #delete:hover
+        {
+          color: rgb(230, 16, 16);
+        }
+        .options:hover #edit{
+          
+          float: left;
+          padding-top: 10px;
+          padding-bottom: 20px;
+        }
+      
+      /* CSS FOR NOT LOGIN USER */
+
+      #notuser
+      {
+        width: 500px;
+        padding: 100px;
+      }
+
+      #notuser ul li {
+        list-style: none;
+        display: inline-flex;
+      }
+
+/*PROFILE*/
+ 
+      #pro{
+        width: 600px;
+        text-align: justify;
+      }
+    
+
+      .bio{
+        border: 2px rgba(133, 129, 129, 0.116) solid;
+        border-radius: 10px;
+        padding: 5px;
+      }
+      .bio:hover
+      {
+        border: 2px rgba(77, 155, 228, 0.178) solid;
+
+        box-shadow: rgba(77, 155, 228, 0.178) 0 0 0 2px ;
+        margin-left: 15px;
+        
+
+      }
+     
+      
+      span{
+        color:rgb(255, 150, 108);
+        font-weight: bolder;
+      }
 
 </style>
+ 
 
 <div class="container" align="center">
 
@@ -44,22 +148,23 @@
 
    <a href="{{user_profile.dp.url}}"> <img src="{{user_profile.dp.url}} " alt="" width="200px" height="200px" ></a>
     <br>
-   Name: <strong>{{user_profile.user}} </strong><br><br>
-   Bio:  <strong>{{user_profile.bio}} </strong><br>
-   <br>
-   Joined: {{ user_profile.joined_at}}  
-   <br>
-   <br>
-    <p>posts: {{user_post_length}} </p>
-    <p> <a href="{% url 'account:following_list' user_object.id %}">following: {{user_following}}  </a></p>  
-    <p><a href="{% url 'account:followers_list' user_object.id %}"> followers : {{user_followers}} </a></p>
-
+    <br>
+    <div id="pro">
+   <p class="bio"> <span> Name</span> {{user_profile.user}}</p>
+  <p class="bio" id="bio"><span>Bio</span> {{user_profile.bio}} </p>
+  <p class="bio"><span>Joined</span> {{ user_profile.joined_at}} </p> 
+ 
+    <p class="bio"><span>Posts</span> {{user_post_length}} </p>
+    <p class="bio"> <a href="{% url 'account:following_list' user_object.id %}"><span>Following</span> {{user_following}}  </a></p>  
+    <p class="bio"><a href="{% url 'account:followers_list' user_object.id %}"><span> Followers </span> {{user_followers}} </a></p>
+  </div>
 </div>
 
 
 <br>
+
 {% if not is_follows_this_user %}
-<form action="/follow" method="POST">
+<form action="/follow/" method="POST">
     {% csrf_token %}       
      
     {% if user_object.username != user.username %}    
@@ -74,7 +179,7 @@
 </form>
 <br>
 {% else %}
-<form action="/unfollow" method="POST">
+<form action="/unfollow/" method="POST">
     {% csrf_token %}       
      
     {% if user_object.username != user.username %}    
@@ -95,9 +200,39 @@
 
     {% for post in user_posts %}
 
-            <a href="{{post.user_post.url}}">
-                <img src=" {{post.user_post.url}} " alt="" width="300px">
-            </a>
+            
+    {% if user.id == post.user.id %}
+            <div class="menu-bar" align="center">
+                <ul>                 
+              
+                  <li class="options">   
+                    <div class="sub-menu">
+                        <ul>
+                          <li><a id="delete" href="{% url 'account:post-delete-view' post.id %}"> Delete </a></li>
+                          <li><a id="edit" href="{% url 'account:post-update-view' post.id %}"> Edit </a></li>
+                        </ul>
+                    </div>
+
+                    <a href="{% url 'account:post-detail-view' post.id %}">
+                        <img id="post" src=" {{post.user_post.url}} " alt=""  width="300px" >
+                    </a>
+              
+                 
+                  </li>
+                </ul>
+              </div>
+            {% else %}
+            <div class="menu-bar">
+                <ul>
+                    <li>
+                            <a href="{% url 'account:post-detail-view' post.id %}">
+                                <img id="post" src=" {{post.user_post.url}} " alt="" width="300px">
+                            
+                            </a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
            
     {% endfor %}
 

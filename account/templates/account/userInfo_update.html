@@ -8,11 +8,23 @@
     }
     #update li 
     {
-        padding: 70px;
         display: inline;
         text-align: center;
     }
+    .helptext
+    {
+        display: none;
+    }
 
+    .container
+    {
+        width: 450px;
+    }
+
+    #id_bio
+    {
+        height: 20px;
+    }
 
 </style>
 
@@ -25,8 +37,8 @@
     {{ two_form.as_p }}
    <div class="container" id="update">
    
-   <li> <input type="submit" value="update" class="btn btn-primary">    </li>
-    <li> <a href="{% url 'account:profile-update-view' %}" class="btn btn-dark"> cancel </a></li>
+   <li> <input type="submit" value="update" class="btn btn-primary form-control">    </li>
+    <li> <a href="{% url 'account:profile-update-view' %}" class="btn btn-dark form-control" style="margin-top:15px;"> cancel </a></li>
     
     </div>
 </form>

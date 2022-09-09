@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{%block body_block%}
+<style>
+    #delete{
+        margin-right: 100px;
+    }
+</style>
+<h2>{{request.user}} are you sure you want to delete account?</h2>
+<br>
+<form method="POST">
+    {% csrf_token%}
+    <input type="submit" value="Yes, Delete Account" class="btn btn-danger" id="delete">
+    <a href="{% url 'account:profile-detail-view' object.id %}" class="btn btn-primary"> cancel</a>
+</form>
+
+{% endblock %}

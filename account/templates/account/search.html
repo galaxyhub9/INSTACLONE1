@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load humanize %} 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<style>
+    .containers
+    {
+        padding-top: 20px;
+        width: 50%;
+        text-align: start ;
+        margin-left: 30%;
+        margin-right: 50%;
+
+
+    }
+    
+    
+    .bio{
+        text-align: start ;
+        width: 75px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;        
+        font-size: 15px;
+        margin-left: 40px;
+        
+       }
+
+    .border1
+    {
+        padding-left: 10px;
+        border: 2px rgba(165, 154, 154, 0.226) solid;
+        margin: 10px;
+        border-radius: 10px;
+        
+    }
+
+    .border1:hover
+    {
+        padding-left: 10px;
+        border: 2px rgba(69, 163, 226, 0.226) solid;
+        box-shadow:  rgba(69, 163, 226, 0.226) 0 0 2px 4px;
+        margin-left: 25px;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+   
+    /*css of base.html*/
+    .navbar-nav{
+        margin-left: auto;
+}
+#profile{
+  background-color: aliceblue;
+  border-radius: 20px;
+}
+
+.nav-item
+{
+  list-style: none;
+}
+body
+{
+  background-color: rgba(255, 255, 255, 0.24);
+}
+
+
+#navbarDropdownMenuLink
+{
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;        
+  font-size: 20px;
+  
+}
+
+   
+</style>
+</head>
+
+
+{% block body_block%}
+
+
+{% if user.is_authenticated%}
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark h3 " >
+    <div class="container-fluid" style=" width: 90%; ">
+        <ul>
+        <li class="nav-item ">
+            <a class="nav-link active" href="{% url 'index' %}"><img src="{% static 'instagram.png' %}" alt="i9mg" width="40px" style="padding-top:5px ;"></a>
+          </li>
+        </ul>
+        <!-- SEARCH BUTTON -->
+      
+        <form class="d-flex" role="search" action="search" method="POST" id="searchbar">
+          {% csrf_token %}
+          <input name="username" class="form-control me-0 " type="search" placeholder="enter username.." aria-label="Search" style="width:180px; height:30px; margin:10px ">
+          <button type="submit" style="width:30px; height:30px; margin:12px ;border-radius:8px "><svg xmlns="http://www.w3.org/2000/svg" width="25" height="30"  style="padding-bottom: 15px; padding-right:10px; "  class="bi bi-search" viewBox="0 0 16 16">
+             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg>
+          </button>
+            </form>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        
+ <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+
+      <ul class="navbar-nav" >
+        
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account:about' %}">about</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="{% url 'account:contact' %}">contact</a>
+        </li>
+      {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'account:upload' %}">post</a>
+      </li>
+        <li class="nav-item dropdown">
+          <a  class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" >
+           <img src="{{ request.user.Display.dp.url}}" alt="img" width="40px" id="profile"> {{ user.username}}
+          </a>
+          
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="{% url 'account:logout' %}">logout</a>
+            <a class="dropdown-item" href="{% url 'account:profile-update-view'  %}">update</a>
+            <a class="dropdown-item" href="{% url 'account:profile-detail-view' request.user.id %}">Profile</a>
+            <a class="dropdown-item" href="{% url 'account:account-delete' request.user.id %}">delete account</a>
+         
+          </div>
+        </li>
+
+        
+        {% else %}
+        <li class="nav-item ">
+          <a class="nav-link" href="{% url 'account:login' %}">login</a>
+        </li>
+       <li class="nav-item">
+          <a class="nav-link" href="{% url 'account:signup' %}">signup</a>
+        </li>
+          {% endif %}
+      </ul>
+    </div>
+    </div>
+    
+  </nav>
+  {% else %}
+ 
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark h4 " >
+    <div class="container-fluid" style=" width: 60%; ">
+
+        <ul>
+        <li class="nav-item ">
+            <a class="nav-link active" href="{% url 'index' %}"><img src="{% static 'instagram.png' %}" alt="i9mg" width="35px" style="padding-top:0px ;"></a>
+          </li>
+        </ul>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"  id="navbarSupportedContent" >
+
+          <ul class="navbar-nav mr-auto" >
+            
+            <li class="nav-item" >
+              <a class="nav-link" href="{% url 'account:about' %}">about</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " href="{% url 'account:contact' %}">contact</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+  </nav>
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="containers" align="center">
+{% for users in username_profile_list %}
+
+
+<div class="border1">
+<img src="{{ users.dp.url}}" alt="img" width="30px">
+<a href="{% url 'account:profile-detail-view' users.id %}" style="font-size: 20px; text-decoration:none; " id="username"> @{{users}} </a>
+
+<p class="bio"> {{users.bio}} </p>
+</div>
+{% endfor %}
+
+</div>
+{% endblock %}
