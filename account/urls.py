@@ -26,7 +26,13 @@ urlpatterns =[
     
     path('follower-list/<pk>',views.FollowersListView,name="followers_list"),
     
-    path('following-list/<pk>',views.FollowingListView,name="following_list")
+    path('following-list/<pk>',views.FollowingListView,name="following_list"),
+    
+    path('profile/<pk>/delete/',views.AccountDeleteView.as_view(),name='account-delete'),
+    
+    path('contact/',views.contactView,name='contact'),
+    
+    path('about/',views.aboutView,name='about'),
     
 
     

@@ -2,7 +2,7 @@
 {%block body_block%}
 
 <style>
-    #follower {
+    #following {
         text-decoration: none;
         color: black;
         font-size: 20px;
@@ -18,9 +18,9 @@
 
 
 
-{% for following in following_list1 %}
+{% for following in user_following_list1 %}
 
-<!-- <a href="{{user.dp.url}} "><img src=" {{user.dp.url}} " alt="" width="30px" height="30px"></a>  -->
+<a href="{{following.dp.url}} "><img src=" {{following.dp.url}} " alt="" width="30px" height="30px"></a> 
 
 <a id="following" href="{% url 'account:profile-detail-view' following.id %}"> {{following}} </a>
 <br>

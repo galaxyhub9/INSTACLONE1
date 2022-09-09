@@ -1,3 +1,4 @@
+from itertools import chain
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
@@ -44,6 +45,7 @@ def signupView(req):
             registered = True
             # return render(req, 'account/login.html')            
         else:
+            
             print(user_form.errors,profile_form.errors)
     
     else:
@@ -63,6 +65,7 @@ def loginView(req):
             login(req,user)       
             return HttpResponseRedirect('/')    
         else:
+            # return render(req,'account/signup.html')
             print('not active')
     else:
         return render(req,'account/login.html')
@@ -179,11 +182,12 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 #     else:
 #         update_form = PostUpdateForm()
 #     return render(request,'account/editpost.html',{'update_form':update_form})
-
-'''update using CBV's '''
 """
 
-class PostUpdateView(UpdateView):
+'''update using CBV's '''
+
+
+class PostUpdateView(LoginRequiredMixin ,UpdateView):
     model = posts
     form_class = PostUpdateForm
     template_name= 'account/posts_update.html'
@@ -205,8 +209,9 @@ def ProfileUpdateView(req,id=None):
         if one_form.is_valid() and two_form.is_valid():
             one_form.save()
             two_form.save()
-            
-            return redirect('index')
+            return redirect(req.META.get('HTTP_REFERER'))       
+
+            # return redirect('index')
     else:
         one_form = ProfileUpdateFormOne(instance=req.user)
         two_form = ProfileUpdateFormTwo(instance = req.user.Display)
@@ -223,20 +228,20 @@ def ProfileDetailView(request,pk):
     user_followers = len(FollowersCount.objects.filter(user=user_profile))
     user_following = len(FollowersCount.objects.filter(follower=user_profile)) 
     user_followers_list = FollowersCount.objects.filter(user= user_profile)
-   
+    # nums = ['one', 'two', 'theree', 'four']
     
     
           
     user_followers_list1 = []
-    for i in user_followers_list:        
-        print(i.user)
+    for i in user_followers_list:              
+        # print(i.user)
         user_followers_list1.append(i.follower_id)    
-         
+        # print(user_followers_list1)
 
     
     is_follows_this_user = False
     for a in user_followers_list1:
-        print(a,'=',request.user.id)        
+        # print(a,'=',request.user.id)        
         if request.user.id == a:
             is_follows_this_user = True
         
@@ -250,7 +255,8 @@ def ProfileDetailView(request,pk):
         'user_followers':user_followers,
         'user_following':user_following,
         'is_follows_this_user':is_follows_this_user,      
-        'user_followers_list':user_followers_list
+        'user_followers_list':user_followers_list,
+        # 'nums':nums
     
     }
     return render(request,'account/userInfo_detail.html', context)
@@ -270,13 +276,16 @@ def FollowersListView(request,pk):
 def FollowingListView(request,pk):
     user_object = User.objects.get(id=pk)     
     user_profile = userInfo.objects.get(user=user_object)
-    following_list = FollowersCount.objects.filter(follower=user_profile)  
-    following_list1 = []   
-    for i in following_list:
-        
-        following_list1.append(i)
+    user_following_list = FollowersCount.objects.filter(follower= user_profile)
+    
+    user_following_list1 = []
+    for i in user_following_list:              
+        print(i.user)
+        user_following_list1.append(i.user)    
+        print(user_following_list1)
+   
        
-    return render(request,'account/following.html',{'user_object':user_object,'following_list1':following_list1,'user_profile':user_profile })
+    return render(request,'account/following.html',{'user_object':user_object,'user_following_list1':user_following_list1,'user_profile':user_profile })
                 
 
   
@@ -298,7 +307,7 @@ def follow(request):
             follower_obj = FollowersCount.objects.create(follower = follower1,user= user1)
             follower_obj.save()
         return redirect(request.META.get('HTTP_REFERER'))       
-        
+    
         
     
 @login_required
@@ -315,3 +324,38 @@ def unfollow(request):
             pass
         return redirect(request.META.get('HTTP_REFERER'))
          
+         
+class AccountDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    success_url =reverse_lazy('account_delete_msg')  
+    
+
+def AccDelView(req):
+    return render(req, 'account/account_del_msg.html')
+
+
+def SearchView(request):
+    user_object =  User.objects.get(username = request.user.username)
+    user_profile = userInfo.objects.get(user = user_object)
+    if request.method == 'POST':
+        user= request.POST['username']
+        username_object = User.objects.filter(username__icontains = user )
+        username_profile =[]
+        username_profile_list =[]
+        for user in username_object:
+            username_profile.append(user)
+            
+        for ids in username_profile:
+            profile_lists = userInfo.objects.filter(user = ids)
+            username_profile_list.append(profile_lists)
+        username_profile_list= list(chain(*username_profile_list))
+        
+
+        
+    return render(request, 'account/search.html',{'user_profile':user_profile,'username_profile_list':username_profile_list})
+
+def contactView(req):
+    return render(req, 'account/contact.html')
+
+def aboutView(req):
+    return render(req, 'account/about.html')

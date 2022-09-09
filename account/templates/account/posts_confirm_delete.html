@@ -8,9 +8,9 @@
     
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}  
-        <h2 style="text-transform: uppercase ;">{{ object.user }} are you sure you want to delete? </h2>             
+        <h2 style="text-transform: uppercase ;"> {{ object.user }} are you sure you want to delete? </h2>             
         <input type="submit" value="delete" class="btn btn-danger" >
-        <a href="{% url 'index'  %} " class="btn btn-primary">cancel</a>         <!-- href="{% url 'account:post-detail-view' object.id %}" THIS CAN BE USED TO GET BACK TO POST DETAIL VIEW AFTER CANCELLATION -->
+        <a href="{% url 'account:post-detail-view' object.id %} " class="btn btn-primary">cancel</a>         <!-- href="{% url 'account:post-detail-view' object.id %}" THIS CAN BE USED TO GET BACK TO POST DETAIL VIEW AFTER CANCELLATION -->
     </form>
 </div>
 {% else %}
