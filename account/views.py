@@ -73,7 +73,7 @@ def loginView(req):
 @login_required 
 def logoutView(req):
     logout(req)
-    return HttpResponseRedirect('account/login')
+    return HttpResponseRedirect('/')
 
 @login_required
 def imagePostView(req):
