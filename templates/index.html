@@ -45,10 +45,10 @@
            padding-right: 210px;
           }
          
-          #space2{
+          .space2{
            color: rgb(0, 169, 247);
            text-decoration: none;
-           padding-right: 210px;
+           /*padding-right: 50%;*/
            list-style: none;
            
           }
@@ -186,7 +186,53 @@
          
             
             }
+            
+
+            #heart
+            {
+              width:3%;
+            }
+           
+            @media only screen and (min-width:800px)
+            {
+              #heart
+              {
+                width: 2.5%;
+              }
+              #postimg
+              {
+                width: 30%;
+              }
+              .space2{
+                font-size:15px;
+
+              }
+           
+            }
+
+            @media only screen and (min-width:1020px)
+            {
+              #heart
+              {
+                width: 1.5%;
+              }
+               #postimg
+              {
+                width: 25%;
+              }
+              .space2{
+                font-size:18px;
+                
+
+              }
+             
+            }
          
+            .border1
+            {
+              border: 2px black solid;
+            }
+           
     </style>
 </head>
 
@@ -311,7 +357,7 @@
 
 
 {% if user.is_active %}
-      <div class="containerp" align="center" width="500px">
+      <div class="containerp" align="center" >
             <h2>posts</h2>
             <br>
             {% for feed in feed_list reversed  %}
@@ -342,22 +388,23 @@
                               </li>
                           </ul>
                     </div>
-                {% else %}
+                {% else %}-->
+                <div class="border1">
                       <ul>
-                        <a id="space2" href="{% url 'account:profile-detail-view' feed.user.id %}">
+                        <a id="dpimage" href="#"><img src="{{feed.user.dp.url}}" alt="dp" width="20px"></a>
+                        <a class="space2" href="{% url 'account:profile-detail-view' feed.user.id %}">
                           <strong>@{{feed}}</strong>
                         </a>
                       </ul>
-                {% endif %} -->
-                
-                <a href="{{feed.user_post.url}}"><img src="{{feed.user_post.url}}" alt="img"  width=20% /></a>
+                <!-- {% endif %}  -->
+                <a href="{{feed.user_post.url}}"> <img id="postimg" src="{{feed.user_post.url}}" alt="img"  width=40% /></a>
                 <!-- {% url 'account:post-detail-view' feed.id %} this can be used to let the post detail view -->
                 <p>posted: {{feed.posted_days}}</p>
 
                 <p id="caption" >caption: {{feed.caption}}</p>                
                 <p>
                    <a href="/like-post?post_id={{feed.id}} " style="color: rgb(245, 44, 44)">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="3%" height="3%" fill="currentColor" class="bi bi-suit-heart-fill"
+                      <svg xmlns="http://www.w3.org/2000/svg" id="heart"  fill="currentColor" class="bi bi-suit-heart-fill"
                         viewBox="0 0 16 16">
                         <path
                           d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
@@ -365,7 +412,7 @@
                    </a>
                    {{feed.likes}}
                 </p>
-                <hr>
+              </div>
             {% endfor%}
       </div>
       
@@ -396,6 +443,9 @@
                 {% endif %}
             </div>
       </div>
+
+      <!-------------------------------- FOOTER --------------------------->
+
       <nav class="navbar fixed-bottom navbar-light bg-light">
         <div class="container" align="center">
       
@@ -420,6 +470,7 @@
         </div>
       </nav>
 {% endif %}
+
 
 
 {% endblock %}
