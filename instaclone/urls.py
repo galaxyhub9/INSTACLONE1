@@ -23,6 +23,8 @@ from account import views as aviews
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.IndexFeedView,name='index'),
+    # path('feed',views.FeedView,name='feed'),
+    # path('feed/<pk>',views.FeedView,name='feed'),
     path('account/',include('account.urls')),
     path('like-post/',aviews.postLikeView,name='like-post'),
     path('follow/',aviews.follow,name='follow'),
