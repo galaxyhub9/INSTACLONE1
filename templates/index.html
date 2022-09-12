@@ -45,10 +45,10 @@
            padding-right: 210px;
           }
          
-          #space2{
+          .space2{
            color: rgb(0, 169, 247);
            text-decoration: none;
-           padding-right: 210px;
+           /*padding-right: 50%;*/
            list-style: none;
            
           }
@@ -111,10 +111,7 @@
          
            /************* FORMS FOR LOGIN/SIGNUP ****************/
          
-           #caption{
-             width: 200px;
-            text-align: justify;
-           }
+           
          
              .navbar-nav{
                      margin-left: auto;
@@ -186,7 +183,149 @@
          
             
             }
-         
+
+
+            /**************** INDEX FEED *********************/
+           
+
+            #postimg
+              {
+                width: 50%;
+                border: 5px rgba(128, 128, 128, 0.642) solid;
+                border-bottom: none;
+                border-top: none;
+              }
+
+
+            .data{
+              width: 50%;
+             text-align: justify;
+             border: 5px rgba(128, 128, 128, 0.642) solid;
+             border-top: none;
+            }
+
+            /*.space2{
+              padding-right: 28%;
+            }*/
+
+            #heart
+            {
+              width:5%;
+            }
+           
+
+            .username
+            {
+              border: 5px rgba(128, 128, 128, 0.642) solid;
+              width: 50%;
+              margin-bottom: 0%;
+              border-bottom: none;
+              text-align: start;
+              padding-left: 0.5%;
+              padding-bottom: 0.5%;
+              padding-top: 0.5%;
+              font-size: 80%;
+            }
+
+
+
+            @media only screen and (min-width:800px)
+            {
+              
+              #postimg
+              {
+                width: 35%;
+                border: 5px rgba(128, 128, 128, 0.642) solid;
+                border-bottom: none;
+                border-top: none;
+              }
+              /*.space2{
+                font-size:15px;
+                padding-right: 35%;
+                border: 2px rgba(11, 11, 11, 0.642) solid;
+              }*/
+
+              .username
+              {
+                border: 5px rgba(128, 128, 128, 0.642) solid;
+                width: 35%;
+                margin-bottom: 0%;
+                border-bottom: none;
+                text-align: start;
+                padding-left: 0.5%;
+                padding-bottom: 0.5%;
+                font-size: 100%;
+
+              }
+                           
+              .data{
+                width: 35%;
+                border: 5px rgba(128, 128, 128, 0.642) solid;
+                border-top: none;
+
+              }
+              #heart
+              { text-decoration: none;
+                width: 5%;
+              }
+           
+            }
+
+            @media only screen and (min-width:1020px)
+            {
+              #heart
+              {
+                width: 5%;
+              }
+               #postimg
+              {
+                width: 30%;
+                border: 5px rgba(128, 128, 128, 0.642) solid;
+                /*box-shadow:20px 20px 100px 100px red,20px -20px 100px 100px blue,-20px -20px 100px 100px yellow, -20px 20px 100px 100px black;*/
+                border-bottom: none;
+                border-top: none;
+
+              }
+              /*.space2{
+                font-size:20px;
+                padding-right: 30%;                
+
+              }*/
+
+                .username
+              {
+                text-align: start;
+                border: 5px rgba(128, 128, 128, 0.642) solid;
+                width: 30%;
+                margin-bottom: 0%;
+                border-bottom: none;
+                padding-left: 0.5%;           
+                padding-bottom: 0.5%;
+                font-size: 100%;
+               /* box-shadow: inset 5px 5px 3px rgba(151, 143, 143, 0.269),
+                inset -5px 5px 3px rgba(151, 143, 143, 0.269);*/
+
+                
+                
+              }
+               
+              .data{
+                width: 30%;
+                border: 5px rgba(128, 128, 128, 0.642) solid;
+                border-top: none;
+
+              }
+
+              
+             
+            }
+
+          
+           
+           
+
+            
+           
     </style>
 </head>
 
@@ -311,7 +450,7 @@
 
 
 {% if user.is_active %}
-      <div class="containerp" align="center" width="500px">
+      <div class="containerp" align="center" >
             <h2>posts</h2>
             <br>
             {% for feed in feed_list reversed  %}
@@ -342,31 +481,39 @@
                               </li>
                           </ul>
                     </div>
-                {% else %}
-                      <ul>
-                        <a id="space2" href="{% url 'account:profile-detail-view' feed.user.id %}">
+                {% else %}-->
+                <div class="border1">
+                      <ul class="username">
+                        <a id="dpimage" href="{{feed.user.dp.url}}"><img src="{{feed.user.dp.url}}" alt="dp" width="13%" style="border-radius: 50%;"></a>
+                        <a class="space2" href="{% url 'account:profile-detail-view' feed.user.id %}">
                           <strong>@{{feed}}</strong>
                         </a>
-                      </ul>
-                {% endif %} -->
-                
-                <a href="{{feed.user_post.url}}"><img src="{{feed.user_post.url}}" alt="img"  width=20% /></a>
+                      </ul>               <!-- {% endif %}  -->
+                <a href="{{feed.user_post.url}}"> <img id="postimg" src="{{feed.user_post.url}}" alt="img"  width=30% /></a>
+              
                 <!-- {% url 'account:post-detail-view' feed.id %} this can be used to let the post detail view -->
+                <div class="data" >
+                  <p>
+                    <a href="/like-post?post_id={{feed.id}} " style="color: rgb(245, 44, 44); text-decoration:none">
+                       <svg xmlns="http://www.w3.org/2000/svg" id="heart"  fill="currentColor" class="bi bi-suit-heart-fill"
+                         viewBox="0 0 16 16">
+                         <path
+                           d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
+                       </svg>
+                    </a></p>
+                    <p > likes 
+                    {{feed.likes}}
+                 </p>
                 <p>posted: {{feed.posted_days}}</p>
 
-                <p id="caption" >caption: {{feed.caption}}</p>                
-                <p>
-                   <a href="/like-post?post_id={{feed.id}} " style="color: rgb(245, 44, 44)">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="3%" height="3%" fill="currentColor" class="bi bi-suit-heart-fill"
-                        viewBox="0 0 16 16">
-                        <path
-                          d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" />
-                      </svg>
-                   </a>
-                   {{feed.likes}}
-                </p>
-                <hr>
+                <p  id="caption" >caption: {{feed.caption}}</p>                
+                               
+              </div>
+            </div>
+              <br>
+              <br>
             {% endfor%}
+            
       </div>
       
 {% else %}
@@ -396,6 +543,9 @@
                 {% endif %}
             </div>
       </div>
+
+      <!-------------------------------- FOOTER --------------------------->
+
       <nav class="navbar fixed-bottom navbar-light bg-light">
         <div class="container" align="center">
       
@@ -420,6 +570,7 @@
         </div>
       </nav>
 {% endif %}
+
 
 
 {% endblock %}

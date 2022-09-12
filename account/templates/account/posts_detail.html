@@ -72,13 +72,13 @@
 
         .containers
         {
-          border: 2px red solid;
-          margin-left: 20%;
+          width: 50%;
         }
       
 </style>
 
-<div class="containers" align="center">
+<div class="container" align="center">
+  <div class="containers">
     
     <h2 style=" text-transform:uppercase"> {{object.user}}'s POST</h2> <hr>
     {% if user.id == object.user.id %}
@@ -91,7 +91,7 @@
               <img src="{% static 'more.png' %}" alt="" height="30px" style="border: 2px red solid; "/>
             </a>
       
-            <div class="sub-menu"  width="30%" style="border: 2px red solid; ">
+            <div class="sub-menu"  width="50%" style="border: 2px red solid; ">
               <ul>
                 <li><a id="delete" href="{% url 'account:post-delete-view' object.id %}">Delete</a></li>
                 <li><a id="edit" href="{% url 'account:post-update-view' object.id %}">Edit  </a></li>
@@ -122,5 +122,6 @@
 <p>
   <a href="{{object.user_post.url}}" download> download </a>
 </p>
+</div>
 </div>
 {% endblock %}
