@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width initial-scale=1.0">
-    <title>Document</title>
+    <title>InstaGram</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     
@@ -69,7 +69,10 @@
         </li>
       {% if user.is_authenticated %}
       <li class="nav-item">
-        <a class="nav-link " href="{% url 'account:upload' %}">post</a>
+        <a class="nav-link " href="{% url 'account:uploadimage' %}">post</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'account:uploadvideo' %}">video</a>
       </li>
         <li class="nav-item dropdown">
           <a  class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" >

@@ -12,7 +12,9 @@ urlpatterns =[
     
     path('logout/',views.logoutView,name='logout'),
     
-    path('uploadpost/',views.imagePostView,name='upload'),    
+    path('uploadpost/',views.imagePostView,name='uploadimage'),    
+    
+    path('uploadvideo/',views.VideoPostView,name='uploadvideo'),    
     
     path('profile/<int:pk>/',views.ProfileDetailView,name='profile-detail-view'),
     
@@ -21,6 +23,10 @@ urlpatterns =[
     path('postdetail/<pk>/',views.PostDetailView.as_view(),name='post-detail-view'),
 
     path('postdetail/<pk>/update',views.PostUpdateView.as_view(),name='post-update-view'), 
+    
+    path('postdetail/<id>/comment/',views.PostCommentView,name='comment'),
+    
+    path('postdetail/<id>/commentv/',views.PostCommentView,name='comment2'),
 
     path('postdetail/<pk>/delete/',views.PostDeleteView.as_view(),name='post-delete-view'),
     
