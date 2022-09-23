@@ -1,4 +1,5 @@
-# InstaApp project!!!!
+
+# InstaApp project!!
 
 This is a website designed using Django FrameWork, Bootstrap and python language. 
 In this site people can register and can post the images.

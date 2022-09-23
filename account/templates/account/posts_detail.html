@@ -72,13 +72,22 @@
 
         .containers
         {
+<<<<<<< HEAD
           width: 50%;
+=======
+          border: 2px red solid;
+          margin-left: 20%;
+>>>>>>> addf30ff3cdb5429b96dd086e9f57a991e26588d
         }
       
 </style>
 
+<<<<<<< HEAD
 <div class="container" align="center">
   <div class="containers">
+=======
+<div class="containers" align="center">
+>>>>>>> addf30ff3cdb5429b96dd086e9f57a991e26588d
     
     <h2 style=" text-transform:uppercase"> {{object.user}}'s POST</h2> <hr>
     {% if user.id == object.user.id %}
@@ -91,7 +100,11 @@
               <img src="{% static 'more.png' %}" alt="" height="30px" style="border: 2px red solid; "/>
             </a>
       
+<<<<<<< HEAD
             <div class="sub-menu"  width="50%" style="border: 2px red solid; ">
+=======
+            <div class="sub-menu"  width="30%" style="border: 2px red solid; ">
+>>>>>>> addf30ff3cdb5429b96dd086e9f57a991e26588d
               <ul>
                 <li><a id="delete" href="{% url 'account:post-delete-view' object.id %}">Delete</a></li>
                 <li><a id="edit" href="{% url 'account:post-update-view' object.id %}">Edit  </a></li>
@@ -123,5 +136,8 @@
   <a href="{{object.user_post.url}}" download> download </a>
 </p>
 </div>
+<<<<<<< HEAD
 </div>
+=======
+>>>>>>> addf30ff3cdb5429b96dd086e9f57a991e26588d
 {% endblock %}

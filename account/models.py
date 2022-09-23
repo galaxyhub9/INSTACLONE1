@@ -53,6 +53,19 @@ class posts(models.Model):
         # ago = pdays - today
         return pdays
     
+
+class PostVideo(models.Model):
+    id = models.UUIDField(primary_key=True,default=uuid4)
+    user = models.ForeignKey(userInfo,on_delete=models.CASCADE)
+    caption = models.TextField(blank=True,null=True)
+    posted_at = models.DateTimeField(default=datetime.now)
+    likes = models.IntegerField(default=0)
+    video_post = models.FileField(upload_to='post_video/%y/%m/%d',verbose_name="video",default='null')
+    
+    
+    def __str__(self):
+        return  "{}| {}".format(self.user.user.username, self.caption)
+
 class likePost(models.Model):
     username = models.CharField(max_length=100)
     post_id = models.CharField( max_length=500) # it was giving me error if i use uuid field when i liked the  post 
@@ -67,3 +80,15 @@ class FollowersCount(models.Model):
     
     def __str__(self):
         return self.user
+
+    
+
+class PostComment(models.Model):
+    user = models.ForeignKey(userInfo, on_delete=models.CASCADE, related_name='comments')
+    comment_text = models.TextField(max_length=1000)
+    comment_on_post =models.UUIDField()
+    commented_date = models.DateTimeField(auto_now=datetime.now())
+    
+    def __str__(self) :
+        return "{}   |  {}  | {}".format(self.user, self.comment_text, self.comment_on_post)
+

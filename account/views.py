@@ -12,6 +12,8 @@ from account.forms import(  userProfileForm,
                           PostUpdateForm,
                           ProfileUpdateFormOne,
                           ProfileUpdateFormTwo,
+                          VideoPostForm,
+                          PostCommentForm,                         
                          
                           )
 
@@ -19,7 +21,9 @@ from account.forms import(  userProfileForm,
 from .models import ( posts,
                      likePost,
                      userInfo,
-                     FollowersCount)
+                     FollowersCount,
+                     PostVideo,
+                     PostComment)
 from django.views.generic import (DetailView,
                                   DeleteView,
                                   UpdateView,
@@ -76,6 +80,23 @@ def logoutView(req):
     return HttpResponseRedirect('/')
 
 @login_required
+
+def VideoPostView(req):
+    if req.method == 'POST':        
+        video_form = VideoPostForm(req.POST, req.FILES)       
+        if  video_form.is_valid():            
+            video_form.save()
+                     
+            return HttpResponseRedirect('/')
+            
+        else:
+            print('not valid post')
+            
+    else:
+        video_form = VideoPostForm()
+    return render(req, 'account/posts_video_form.html',{'video_form':video_form})
+
+@login_required
 def imagePostView(req):
     
     if req.method == 'POST':
@@ -124,6 +145,7 @@ def postLikeView(req):
         post.likes= post.likes+1
         post.save()
         return redirect(req.META.get('HTTP_REFERER'))       
+        # return redirect('/')
     else:
         like_filt.delete()
         post.likes = post.likes-1
@@ -359,3 +381,32 @@ def contactView(req):
 
 def aboutView(req):
     return render(req, 'account/about.html')
+
+def PostCommentView(req,id):  
+    post_obj = posts.objects.get(id=id)
+    all_comment= PostComment.objects.all()
+    values=''
+    empty = []
+    print("---------------------------\n")
+    for i in all_comment:       
+        if post_obj.id == i.comment_on_post:
+            empty.append([i.user, i.comment_text])
+    if len(empty) == 0:
+        values = "no comments..."
+        print("no comments..")
+        
+    if req.method == 'POST':
+        comment_form = PostCommentForm(req.POST)
+        if comment_form.is_valid():
+            comment_form.save()
+            return redirect(req.META.get('HTTP_REFERER'))       
+    else:
+        comment_form = PostCommentForm()
+    return render(req, 'account/comments.html',{'comment_form':comment_form, "post_obj":post_obj,"all_comment":all_comment,
+                                                'empty':empty,'values':values})
+    
+def comment2(req,id):
+    post_obj = PostVideo.objects.get(id=id)
+
+    return render(req, 'account/comments.html')
+

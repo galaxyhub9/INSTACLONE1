@@ -1,13 +1,12 @@
 
-from cProfile import label
-from logging import PlaceHolder
-from pyexpat import model
+
 from django import forms
 from account.models import userInfo
 from django.contrib.auth.models import User
 
 from account.models import posts
 from account.models import FollowersCount
+from account.models import PostComment, PostVideo
 
 class userInfoForm(forms.ModelForm):
     # password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'password','label':'ghg'}))
@@ -57,6 +56,25 @@ class ImagePostForm(forms.ModelForm):
             
         }
         
+
+class VideoPostForm(forms.ModelForm):
+    class Meta():
+        model = PostVideo
+        fields = ('user','video_post','caption')   
+        
+        widgets={
+                'user':forms.TextInput(attrs={'class':'form-control', 'id':'auth','value':'','type':'hidden'}),
+                'caption':forms.Textarea(attrs={'class':'form-control','placeholder':'caption'}),
+                
+            }   
+        labels={
+            'caption':'',
+            # 'user_post':'upload post'
+        }
+        
+        
+        
+       
 class PostUpdateForm(forms.ModelForm):
     class Meta():
         model = posts
@@ -94,3 +112,17 @@ class ProfileUpdateFormTwo(forms.ModelForm):
 #             'follower':forms.TextInput(attrs={'class':'form-control', 'id':'follow','value':''}),
 #             'user':forms.TextInput(attrs={'class':'form-control', 'id':'user','value':''}),
 #         }
+
+class PostCommentForm(forms.ModelForm):
+    class Meta():
+        model = PostComment
+        fields = ("user", "comment_text","comment_on_post")
+        labels = {
+            'comment_text':''
+        }
+        
+        widgets = {
+            'user':forms.TextInput(attrs={'class':'form-control' ,'id':'commenter','value':'','type':'hidden'}),
+            'comment_text':forms.Textarea(attrs={'class':'form-control' ,"rows":2,"cols" : 10, 'placeholder':'add comment..'}),
+            'comment_on_post':forms.TextInput(attrs={'id':'post_id','value':'','type':'hidden'})
+        }
