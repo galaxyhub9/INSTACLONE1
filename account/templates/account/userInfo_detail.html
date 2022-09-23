@@ -41,6 +41,20 @@
         margin: 50px;
         border-radius: 20px;
     }
+    #cols a video
+    {
+        border: 15px rgba(71, 71, 71, 0.103) solid;
+        
+        margin: 50px;
+        border-radius: 20px;
+    }
+    #cols a video:hover
+    {
+        border: 15px rgba(71, 71, 71, 0.103) solid;
+        box-shadow: black 1px 2px 3px 4px;
+        margin: 50px;
+        border-radius: 20px;
+    }
 
     /* CSS FOR THE POST EDIT AND DELETE */
 
@@ -140,8 +154,6 @@
       }
 
 </style>
- 
-
 <div class="container" align="center">
 
     <h2 style=" text-transform:uppercase"> {{user_profile.user.username }} 's profile  </h2> <hr>
@@ -228,6 +240,46 @@
                             <a href="{% url 'account:post-detail-view' post.id %}">
                                 <img id="post" src=" {{post.user_post.url}} " alt="" width="300px">
                             
+                            </a>
+                    </li>
+                </ul>
+            </div>
+            {% endif %}
+           
+    {% endfor %}
+    
+    {% for posts_video in user_video_posts %}
+    {% if user.id == posts_video.user.id %}
+    
+            <div class="menu-bar" align="center">
+                <ul>                 
+              
+                  <li class="options">   
+                    <div class="sub-menu">
+                        <ul>
+                          <li><a id="delete" href="{% url 'account:post-delete-view' posts_video.id %}"> Delete </a></li>
+                          <li><a id="edit" href="{% url 'account:post-update-view' posts_video.id %}"> Edit </a></li>
+                        </ul>
+                    </div>
+
+                    <a href="{% url 'account:post-detail-view' posts_video.id %}">
+                        <video controls loop autoplay muted width="300px">
+                          <source src="{{ posts_video.video_post.url }}" type="video/mp4">
+                        </video>
+                    </a>
+              
+                 
+                  </li>
+                </ul>
+              </div>
+            {% else %}
+            <div class="menu-bar">
+                <ul>
+                    <li>
+                            <a href="{% url 'account:post-detail-view' posts_video.id %}">
+                              <video controls loop autoplay muted width="300px">
+                                <source src="{{ posts_video.video_post.url}}" type="video/mp4">
+                              </video>                            
                             </a>
                     </li>
                 </ul>

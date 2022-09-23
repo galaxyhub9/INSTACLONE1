@@ -26,7 +26,7 @@ urlpatterns =[
     
     path('postdetail/<id>/comment/',views.PostCommentView,name='comment'),
     
-    path('postdetail/<id>/commentv/',views.PostCommentView,name='comment2'),
+    path('postdetail/<id>/videocomment/',views.comment2,name='video-comment'),
 
     path('postdetail/<pk>/delete/',views.PostDeleteView.as_view(),name='post-delete-view'),
     

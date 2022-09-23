@@ -137,19 +137,44 @@ def imagePostView(req):
 def postLikeView(req):
     username = req.user.username
     post_id = req.GET.get('post_id')
-    post= posts.objects.get(id = post_id)
+    post= posts.objects.get(id = post_id)    
     like_filt = likePost.objects.filter(post_id =post_id,username =username).first()
+
     if like_filt == None:
         new_like = likePost.objects.create(post_id=post_id,username=username)
         new_like.save()
         post.likes= post.likes+1
         post.save()
+        print("&&&&&&&&&&&&&&&&&&&&&&&&" , post.likes)
+
         return redirect(req.META.get('HTTP_REFERER'))       
         # return redirect('/')
     else:
         like_filt.delete()
         post.likes = post.likes-1
         post.save()
+        print("&&&&&&&&&&&&&&&&&&&&&&&&" , post.likes)
+
+        return redirect('/')
+    print("&&&&&&&&&&&&&&&&&&&&&&&&" , post.likes)
+
+@login_required
+def VideoLikeView(req):
+    username = req.user.username
+    post_id = req.GET.get('post_id')
+    video_obj= PostVideo.objects.get(id = post_id)    
+    like_filter = likePost.objects.filter(post_id =post_id,username =username).first()
+    if like_filter == None:
+        new_like = likePost.objects.create(post_id=post_id,username=username)
+        new_like.save()
+        video_obj.likes= video_obj.likes+1
+        video_obj.save()
+        return redirect(req.META.get('HTTP_REFERER'))       
+        # return redirect('/')
+    else:
+        like_filter.delete()
+        video_obj.likes = video_obj.likes-1
+        video_obj.save()
         return redirect('/')
     
 #TO GET DETAILS ABOUT PERSON
@@ -245,7 +270,8 @@ def ProfileDetailView(request,pk):
     user_object = User.objects.get(id=pk) 
     user_profile = userInfo.objects.get(user=user_object)
     user_posts = posts.objects.filter(user=pk)
-    user_post_length = len(user_posts)
+    user_video_posts = PostVideo.objects.filter(user=pk)
+    user_post_length = len(user_posts)+len(user_video_posts)
     current_user = request.GET.get('user')    
     user_followers = len(FollowersCount.objects.filter(user=user_profile))
     user_following = len(FollowersCount.objects.filter(follower=user_profile)) 
@@ -272,6 +298,7 @@ def ProfileDetailView(request,pk):
         'user_object': user_object,
         'user_profile': user_profile,
         'user_posts': user_posts,
+        'user_video_posts': user_video_posts,
         'user_post_length': user_post_length,
         'current_user':current_user,
         'user_followers':user_followers,
@@ -406,7 +433,25 @@ def PostCommentView(req,id):
                                                 'empty':empty,'values':values})
     
 def comment2(req,id):
-    post_obj = PostVideo.objects.get(id=id)
-
-    return render(req, 'account/comments.html')
+    post_object = PostVideo.objects.get(id=id)
+    all_comment= PostComment.objects.all()
+    values=''
+    empty = []
+    print("-------------video comment --------------\n")
+    for i in all_comment:       
+        if post_object.id == i.comment_on_post:
+            empty.append([i.user, i.comment_text])
+    if len(empty) == 0:
+        values = "no comments..."
+        print("no comments..")
+        
+    if req.method == 'POST':
+        comment_form = PostCommentForm(req.POST)
+        if comment_form.is_valid():
+            comment_form.save()
+            return redirect(req.META.get('HTTP_REFERER'))       
+    else:
+        comment_form = PostCommentForm()
+    return render(req, 'account/comment_video.html',{'comment_form':comment_form, "post_object":post_object,"all_comment":all_comment,
+                                                'empty':empty,'values':values})
 

@@ -27,6 +27,7 @@ urlpatterns = [
     # path('feed/<pk>',views.FeedView,name='feed'),
     path('account/',include('account.urls')),
     path('like-post/',aviews.postLikeView,name='like-post'),
+    # path('like-video/',aviews.VideoLikeView,name='like-video'),
     path('follow/',aviews.follow,name='follow'),
     path('unfollow/',aviews.unfollow,name='unfollow'),
     path('accdel/',aviews.AccDelView,name='account_delete_msg'),
