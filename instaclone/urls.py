@@ -32,8 +32,5 @@ urlpatterns = [
     path('accdel/',aviews.AccDelView,name='account_delete_msg'),
     path('search',aviews.SearchView,name='search'),
     
-    
-
-    
 
 ]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -123,7 +123,7 @@ def postLikeView(req):
         new_like.save()
         post.likes= post.likes+1
         post.save()
-        return redirect('/')
+        return redirect(req.META.get('HTTP_REFERER'))       
     else:
         like_filt.delete()
         post.likes = post.likes-1
